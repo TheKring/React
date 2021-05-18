@@ -13,12 +13,10 @@ class CampsiteInfo extends Component {
                     <h4>Comments</h4>
                     <hr/>
                     {comments.map(comment => <div key={comment.id}>
-                    {comment.text}<br/>
-                --{comment.author},  - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} -<hr/></div>)  
-                    
-                    }
-                    
-                </div>
+                        {comment.text}<br/>
+                      --{comment.author},  - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} -<hr/></div>)  
+                    }                   
+                </div>    
             );
             
         }
@@ -42,18 +40,17 @@ class CampsiteInfo extends Component {
 
 
     render() {
-        if(this.props.campsite){
+        if (this.props.campsite) {
             return (
-                <div className="row">
-                    {this.renderCampsite(this.props.campsite)}
-                    {this.renderComments(this.props.campsite.comments)} 
-                </div>   
-            
-            
+                <div className="container">
+                    <div className="row">
+                        {this.renderCampsite(this.props.campsite)}
+                        {this.renderComments(this.props.campsite.comments)}
+                    </div>
+                </div>
             );
-            
         }
-            return (<div></div>);
+            return(<div></div>);
     }
 }
 
