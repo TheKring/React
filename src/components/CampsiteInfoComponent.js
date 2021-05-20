@@ -34,11 +34,7 @@ function RenderComments({comments}){
     }
         return(<div></div>);
 }
-
  
-
-
-
 function CampsiteInfo(props) {
     if (props.campsite) {
         return (
