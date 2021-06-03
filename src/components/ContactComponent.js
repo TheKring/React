@@ -8,9 +8,8 @@ import {
    Col, 
    FormGroup,
    Input,
-   
-} from "reactstrap";
-import { Control, LocalForm, Errors } from 'react-redux-form';
+   } from "reactstrap";
+import { Control, Form, Errors, actions } from 'react-redux-form';
 import { Link } from "react-router-dom";
 
 
@@ -64,8 +63,10 @@ class Contact extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    console.log('Current State is: ' + JSON.stringify(values));
+    alert('Current State is: ' + JSON.stringify(values));
+    this.props.resetFeedbackForm();
+
    
   }
 
@@ -119,7 +120,7 @@ class Contact extends Component {
             <hr />
           </div>
           <div className="col-md-10">
-          <LocalForm onSubmit={values => this.handleSubmit(values)}>
+          <Form model="feedbackForm" onSubmit={values => this.handleSubmit(values)}>
                             <Row className="form-group">
                                 <Label htmlFor="firstName" md={2}>First Name</Label>
                                 <Col md={10}>
@@ -221,54 +222,54 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                             <FormGroup row>
-                <Col md={{ size: 4, offset: 2 }}>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="checkbox"
-                        name="agree"
-                        checked={this.state.agree}
-                        onChange={this.handleInputChange}
-                      />{" "}
-                      <strong>May we contact you?</strong>
-                    </Label>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <Input
-                    type="select"
-                    name="contactType"
-                    value={this.state.contactType}
-                    onChange={this.handleInputChange}
-                  >
-                    <option>By Phone</option>
-                    <option>By Email</option>
-                  </Input>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Label htmlFor="feedback" md={2}>
-                  Your Feedback
-                </Label>
-                <Col md={10}>
-                  <Input
-                    type="textarea"
-                    id="feedback"
-                    name="feedback"
-                    rows="12"
-                    value={this.state.feedback}
-                    onChange={this.handleInputChange}
-                  ></Input>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col md={{ size: 10, offset: 2 }}>
-                  <Button type="submit" color="primary">
-                    Send Feedback
-                  </Button>
-                </Col>
-              </FormGroup>
-                        </LocalForm>
+                           <Col md={{ size: 6, offset: 2 }}>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="checkbox"
+                                    name="agree"
+                                    checked={this.state.agree}
+                                    onChange={this.handleInputChange}
+                                  />{" "}
+                                  <strong>May we contact you?</strong>
+                                </Label>
+                              </FormGroup>
+                            </Col>
+                            <Col md={4}>
+                              <Input
+                                type="select"
+                                name="contactType"
+                                value={this.state.contactType}
+                                onChange={this.handleInputChange}
+                              >
+                                <option>By Phone</option>
+                                <option>By Email</option>
+                              </Input>
+                            </Col>
+                          </FormGroup>
+                          <FormGroup row>
+                            <Label htmlFor="feedback" md={2}>
+                              Your Feedback
+                            </Label>
+                            <Col md={10}>
+                              <Input
+                                type="textarea"
+                                id="feedback"
+                                name="feedback"
+                                rows="12"
+                                value={this.state.feedback}
+                                onChange={this.handleInputChange}
+                              ></Input>
+                            </Col>
+                          </FormGroup>
+                          <FormGroup row>
+                            <Col md={{ size: 10, offset: 2 }}>
+                              <Button type="submit" color="primary">
+                                Send Feedback
+                              </Button>
+                            </Col>
+                          </FormGroup>
+                        </Form>
                     </div>
                 </div>
              </div>
