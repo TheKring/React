@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem } from 'r
 import { Link } from 'react-router-dom';
 import {Modal, ModalHeader,ModalBody, Button, Label, Row, Col} from 'reactstrap';
 import { Control, LocalForm, Errors} from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 
 
@@ -46,14 +47,12 @@ const minLength = len => val => val && (val.length >= len);
                 }
             )
         }
-                    handleSubmit(values) {
-                        console.log('Current state is: ' + JSON.stringify(values));
-                        alert('Current state is: ' + JSON.stringify(values));
-                        this.toggleModal();
-                      
-            
-                       
-                    }
+
+
+        handleSubmit(values) {
+            this.toggleModal();
+            this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
+        }
 
                 render(){
                     return(
@@ -150,7 +149,7 @@ const minLength = len => val => val && (val.length >= len);
             }
 
 
-            function RenderComments({comments}) {
+            function RenderComments({comments, addComment, campsiteId}) {
                 if (comments){
                       return(
                            <div className="col-md-5 m-1">
@@ -165,14 +164,34 @@ const minLength = len => val => val && (val.length >= len);
                                  }
                             ) 
                         }
-                        <CommentForm />
+                        <CommentForm campsiteId={campsiteId} addComment={addComment} />
                             </div>
                      )
                 }
                 return (<div></div>)
               }
-                function CampsiteInfo(props) {
-                    if (props.campsite) {
+              function CampsiteInfo(props) {
+                if (props.isLoading) {
+                    return (
+                        <div className="container">
+                            <div className="row">
+                                <Loading />
+                            </div>
+                        </div>
+                    );
+                }
+                if (props.errMess) {
+                    return (
+                        <div className="container">
+                            <div className="row">
+                                <div className="col">
+                                    <h4>{props.errMess}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+                if (props.campsite) {
                     return (
                         <div className="container">
                             <div className="row">
@@ -187,7 +206,11 @@ const minLength = len => val => val && (val.length >= len);
                             </div>
                                 <div className="row">
                                     <RenderCampsite campsite={props.campsite} />
-                                    <RenderComments comments={props.comments} />
+                                    <RenderComments
+                                        comments={props.comments}
+                                        addComment={props.addComment}
+                                        campsiteId={props.campsite.id}
+                                     />
                                 </div>
                             </div>
                         );
