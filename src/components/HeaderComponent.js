@@ -66,6 +66,8 @@ class Header extends Component {
           </div>
         </Jumbotron>
 
+
+
         <Navbar dark sticky="top" expand="md">
           <div className="container">
             <NavbarBrand className="mr-auto" href="/">
