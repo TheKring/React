@@ -55,7 +55,7 @@ h2 {
 .page-enter-active {
   opacity: 1;
   transform: translateX(0%);
-  transition: 300ms ease-out;
+  transition: 600ms ease-out;
 }
 
 .page-exit {
@@ -64,5 +64,5 @@ h2 {
 
 .page-exit-active {
   opacity: 0;
-  transition: 300ms ease-in;
+  transition: 1200ms ease-in;
 }
