@@ -2,7 +2,6 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 
-
 export const fetchCampsites = () => dispatch => {
     dispatch(campsitesLoading());
 
@@ -78,8 +77,7 @@ export const addComment = comment => ({
 
 
 export const postComment = (campsiteId, rating, author, text) => dispatch => {
-    
-    const newComment = {
+        const newComment = {
         campsiteId: campsiteId,
         rating: rating,
         author: author,
@@ -189,34 +187,40 @@ export const partnersFailed = errMess => ({
     payload: errMess
 });
 
-export const postFeedback = (feedback) => () => {
-    return fetch (baseUrl + 'feedback', {
+export const postFeedback = (firstName, lastName, phoneNum, email, agree, contactType, feedback) => () => {
+    const newFeedback = {
+      firstName: firstName,
+      lastName: lastName,
+      phoneNum: phoneNum,
+      email: email,
+      agree: agree,
+      contactType: contactType,
+      feedback: feedback
+    };
+    newFeedback.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'feedback', {
         method: "POST",
-        body: JSON.stringify(feedback),
+        body: JSON.stringify(newFeedback),
         headers: {
-            "Content-type": "application/json"
+            "Content-Type": "application/json"
         }
     })
-
     .then(response => {
-        if(response.ok) {
+        if (response.ok) {
             return response;
         } else {
-            const error = new Error(`Error ${response.status}: $
-            {response.statusText}`);
+            const error = new Error(`Error ${response.status}: ${response.statusText}`);
             error.response = response;
             throw error;
         }
     },
     error => { throw error; }
     )
-
     .then(response => response.json())
-    .then(response => alert('Thank you for your feedback!\n'+ JSON.stringify
-    (response)))
+    .then(response => alert(`Thank you for your feedback ${JSON.stringify(response)}`))
     .catch(error => {
-        console.log()
-        alert('Your feedback could not be posted\n' + error.message);
+        console.log('post comment', error.message);
+        alert('Your comment could not be posted/nError: ' + error.message);
     });
-
-}
+};

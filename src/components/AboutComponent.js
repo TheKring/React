@@ -6,73 +6,84 @@ import { baseUrl } from '../shared/baseUrl';
 import { Fade, Stagger } from 'react-animation-components';
 
 
+function PartnerList(props) {
+    const partners = props.partners.partners.map(partner => {
+        return (
+            <Fade in key={partner.id}>
+                <Media tag="list" >
+                   <RenderPartner partner={partner} />
+                </Media>
+            </Fade>
+        );
+    });
 
-
-
-
-function About(props) {
+    if (props.partners.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">            
+                <Loading />
+                </div>
+            </div>
+        );
+      }
+    
+      if (props.partners.errMess) {
+        return (
+            <div className="container">
+                <div className="row"> 
+                    <div className="col mt-4">
+                        <h4>{props.partners.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+      }
+    
+      return (
+        <div className="container">
+            <div className="row"> 
+                <div className="col mt-4">
+                    <Media list>
+                        <Stagger in>{partners}</Stagger>
+                    </Media>
+                </div>
+            </div>
+        </div>
+      );
+    }
 
     function RenderPartner ({partner}) {
         if (partner) {
         return (
-            
-            <div>
+            <>
                 <Media object src={baseUrl + partner.image} alt={partner.name} width = "150" />
                 <Media body className="ml-5 mb-4">
-                    <Media heading>
-                        {partner.name}
-                    </Media>
-                        {partner.description}
+                <Media heading>
+                    {partner.name}
                 </Media>
-           </div>
+                    {partner.description}
+                </Media>
+           </>
         );
     }
     return <div />;
     }
 
-    function PartnerList(props) {
-
-        const partners = props.partners.partners.map(partner => {
-            return (
-                <Fade in key={partner.id}>
-                    <Media tag="li" >
-                        <Stagger>
-                            <RenderPartner partner={partner} />
-                        </Stagger>
-                    </Media>
-                </Fade>
-            );
-        });
-    
-        if (props.isLoading) {
-            return <Loading />;
-          }
-        
-          if (props.errMess) {
-            return (
-              <div className="col">
-                <h4>{props.partners.errMess}</h4>
-              </div>
-            );
-          }
-        
-        return (
-        <div className="col mt-4">
-            <Media list>
-                {partners}
-                </Media>         
-        </div>
-        );
-    }
-
+    function About(props) {
 
     return (
         <div className="container">
             <div className="row">
                 <div className="col">
                     <Breadcrumb>
-                        <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
-                        <BreadcrumbItem active>About Us</BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <Link to="/home">
+                            Home
+                            </Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem active>
+                            About Us
+                        </BreadcrumbItem>
                     </Breadcrumb>
                     <h2>About Us</h2>
                     <hr />
@@ -85,7 +96,9 @@ function About(props) {
                 </div>
                 <div className="col-sm-6">
                     <Card>
-                        <CardHeader className="bg-primary text-white"><h3>Facts At a Glance</h3></CardHeader>
+                        <CardHeader className="bg-primary text-white">
+                            <h3>Facts At a Glance</h3>
+                        </CardHeader>
                         <CardBody>
                             <dl className="row">
                                 <dt className="col-6">Founded</dt>
@@ -114,23 +127,14 @@ function About(props) {
                     </Card>
                 </div>
             </div>
-            <div className="row row-content">
-                <div className="col-12">
-                    <h3>Community Partners</h3>
-                </div>
-                <div className="col mt-4">
-                    <PartnerList partners={props.partners} />
-                </div>
+        <div className="row row-content">
+            <div className="col-12">
+                <h3>Community Partners</h3>
+            </div>
+                <PartnerList partners={props.partners} />
             </div>
         </div>
     );
 }
-
-
-
-
-
-
-
 
 export default About;
